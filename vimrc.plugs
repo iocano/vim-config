@@ -1,0 +1,32 @@
+
+" prepare plugins to load
+call plug#begin(plugged_dir)
+
+" completion
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" eye candy
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-scripts/Rainbow-Parenthesis'
+Plug 'Yggdroot/indentLine'
+Plug 'morhetz/gruvbox'
+
+" general
+Plug 'preservim/nerdtree'
+Plug 'preservim/nerdcommenter'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'iocano/vim-capslock'
+Plug 'guns/xterm-color-table.vim'
+
+" database
+Plug 'vim-scripts/dbext.vim'
+
+" php
+Plug 'spf13/PIV'
+
+" Initialize plugin system
+call plug#end()

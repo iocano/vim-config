@@ -1,0 +1,32 @@
+let mapleader = ','
+
+map <leader>h :bprevious<cr>|                                   " go to previous buffer
+map <leader>l :bnext<cr>|                                       " go to next buffer
+
+map <C-J> <C-W>j|                                               " change to bottom window
+map <C-K> <C-W>k|                                               " change to top window
+map <C-L> <C-W>l|                                               " change to left window
+map <C-H> <C-W>h|                                               " change to right window
+
+cnoremap %% <C-R>=fnameescape(expand('%:h')).'/'<cr>|           " %% expands to current buffer's path
+map <leader>ew :e %%|                                           " open new buffer
+map <leader>es :sp %%|                                          " open new buffer (horizontal split)
+map <leader>ev :vsp %%|                                         " open new buffer (vertical split)
+map <leader>et :tabe %%|                                        " open new buffer (tab)
+
+nnoremap sv :so $MYVIMRC<CR>|                                   " reload vimrc
+nnoremap sc :so $MYVIMRC.config<CR>|                            " reload vimrc.config
+nnoremap sm :so $MYVIMRC.maps<CR>|                              " reload vimrc.maps
+nnoremap sf :so $MYVIMRC.functions<CR>|                         " reload vimrc.functions
+
+noremap <F5> :set list! <CR>|                                   " show special characters
+
+noremap <leader>so :w<CR>:source $MYVIMRC<CR>                   " save vimrc file and reload
+
+"Ctrl-^                                                         " soft capslock
+
+" {{{
+augroup vim_filetype_maps
+    autocmd FileType vim nnoremap <F2> :call CreateFolds()<CR>
+augroup END
+" }}}

@@ -1,0 +1,16 @@
+# ignore all
+*
+
+!coc-settings.json
+!.gitignore
+!vimrc
+!vimrc.config
+!vimrc.functions
+!vimrc.maps
+!vimrc.plugs
+!vimrc.plugs.config
+!vimrc.plugs.functions
+!vimrc.plugs.maps
+!bitmaps/
+!bitmaps/vim.ico
+
