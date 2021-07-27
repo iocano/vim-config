@@ -25,7 +25,7 @@ if !isdirectory(g:plugged_dir)
 
     silent call InstallPlugins()
 
-    if IsLinux()
+    if has('unix') && !has('win32unix')
         let fonts_url = 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts'
         let font_path[0] = 'DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf'
         let font_path[1] = 'FiraMono/Regular/complete/Fura%20Mono%20Regular%20Nerd%20Font%20Complete%20Mono.otf'
