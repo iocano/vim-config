@@ -1,7 +1,7 @@
 " vim: set nospell:
 
 " user vim directory
-let g:vim_dir = has('unix') ? expand("~/.vim") : substitute(expand("~/vimfiles"), "\\", "/", "g")
+let g:vim_dir = expand("~/.vim")
 
 " load functions file
 execute printf('source %s/vimrc.functions', vim_dir)
@@ -16,8 +16,8 @@ let g:plugged_dir = printf('%s/plugged', vim_dir)
 if !isdirectory(g:plugged_dir)
 
     silent call InstallPluginManager()
-    " load file with plugin list
 
+    " load file with plugin list
     execute printf('source %s/vimrc.plugs', vim_dir)
 
     " remove vimrc.plugs from list (don't load again) only on first run
@@ -26,14 +26,13 @@ if !isdirectory(g:plugged_dir)
     silent call InstallPlugins()
 
     if has('unix') && !has('win32unix')
+
         let fonts_url = 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts'
         let font_path[0] = 'DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf'
         let font_path[1] = 'FiraMono/Regular/complete/Fura%20Mono%20Regular%20Nerd%20Font%20Complete%20Mono.otf'
 
         silent call InstallFontList(patched_fonts_url, font_path)
-
         call UpdateFontCache()
-
     endif
 
     if PlugLoaded('coc.nvim')
