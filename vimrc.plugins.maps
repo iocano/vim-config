@@ -2,26 +2,26 @@
 let mapleader = ','
 
 " {{{
-if PlugLoaded('vim-easy-align')
+if utils#PlugLoaded('vim-easy-align')
     xmap ga <Plug>(EasyAlign)|                                                                                  " Start interactive EasyAlign in visual mode (e.g. vipga)
     nmap ga <Plug>(EasyAlign)|                                                                                  " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 endif
 " }}}
 
 " {{{
-if PlugLoaded('fzf')
+if utils#PlugLoaded('fzf')
     nnoremap <leader>ff :Files<CR>
 endif
 " }}}
 
 " {{{
-if PlugLoaded('nerdtree')
+if utils#PlugLoaded('nerdtree')
     map <leader>n :NERDTreeToggle<Enter>
 endif
 " }}}
 
 " {{{
-if g:PlugLoaded('coc.nvim')
+if g:utils#PlugLoaded('coc.nvim')
     "IF (pop menu is visible) <ctrl-n> ELSE IF (is autocompletable word) show pop menu again ELSE <tab>
     inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : g:IsAutocompletable() ? coc#refresh() : "\<TAB>"|   " Use tab for trigger completion with characters ahead
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"|                                                  " Use tab for trigger completion navigation

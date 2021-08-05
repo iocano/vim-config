@@ -19,9 +19,12 @@ nnoremap sc :so $MYVIMRC.config<CR>|                            " reload vimrc.c
 nnoremap sm :so $MYVIMRC.maps<CR>|                              " reload vimrc.maps
 nnoremap sf :so $MYVIMRC.functions<CR>|                         " reload vimrc.functions
 
-noremap <F5> :set list! <CR>|                                   " show special characters
+nnoremap <F5> :set list! <CR>|                                   " show special characters
 
-noremap <leader>so :w<CR>:source $MYVIMRC<CR>                   " save vimrc file and reload
+nnoremap <leader>so :w<CR>:source $MYVIMRC<CR>                   " save vimrc file and reload
+
+" Testting
+nnoremap <leader>p :call utils#PathPrintf("%s/%s", g:vim_dir, "viminfo")<CR>
 
 "Ctrl-^                                                         " soft capslock
 

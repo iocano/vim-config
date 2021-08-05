@@ -1,6 +1,6 @@
 
 " prepare plugins to load
-call plug#begin(plugged_dir)
+call plug#begin(expand("~/.vim/plugged"))
 
 " completion
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
