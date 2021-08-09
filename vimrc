@@ -22,4 +22,11 @@ source ~/.vim/vimrc.plugins.functions
 source ~/.vim/vimrc.plugins.config
 source ~/.vim/vimrc.plugins.maps
 
-if utils#IsLinux() | call install#LinuxFonts() | endif
+if utils#IsLinux()
+
+    let font_list = [
+                \ 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/FiraMono/Regular/complete/Fura%20Mono%20Regular%20Nerd%20Font%20Complete%20Mono.otf',
+                \ 'https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf'
+                \ ]
+    call install#LinuxFonts(font_list)
+endif

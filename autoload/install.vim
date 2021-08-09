@@ -40,30 +40,30 @@ endfunction
 " }}}
 
 " {{{ Grab a font by url using curl and install
-function! install#LinuxFonts(fonts_url, font_path_list)
+function! install#LinuxFonts(font_url_list)
 
     let font_destination = expand('~/.local/share/fonts')
 
     " create dir if no exists
     call system(printf('mkdir -p %s', font_destination))
 
-    " to save font names installed
-    let font_name_list = []
+    let is_update_cache_needed = 0
 
-    for font_path in a:font_path_list
-        let font_url = printf("%s/%s", url, font_path_list)
-        let font_name = s:InstallFont(font_url, font_destination)
-        call add(font_name_list, font_name)
+    for font_url in a:font_url_list
+        let is_update_cache_needed += s:InstallLinuxFont(font_url, font_destination)
     endfor
 
-    return font_name_list
+    if is_update_cache_needed > 0
+        call s:UpdateLinuxFontCache()
+    endif
+
 endfunction
 " }}}
 
 " ------------------------------------ Script scope functions --------------------------------------
 
-" {{{
-function! s:InstallFontLinux(font_url, font_destination)
+" {{{ Install a font by url, return 1 if installation was needed, otherwise return 0 (font already exists)
+function! s:InstallLinuxFont(font_url, font_destination)
 
     " get font name from url
     let url_font_name = split(a:font_url, '/')[-1]
@@ -71,16 +71,18 @@ function! s:InstallFontLinux(font_url, font_destination)
     " 'decode' url font name
     let font_name = substitute(url_font_name, '%20', ' ', 'g')
 
-    " get font from url
-    call system(printf("curl -fLo '%s/%s' %s", a:font_destination, font_name, fnameescape(a:font_url)))
+    if !filereadable(printf("%s/%s", a:font_destination, font_name))
+        " get font from url
+        call system(printf("curl -fLo '%s/%s' %s", a:font_destination, font_name, fnameescape(a:font_url)))
+        return 1
+    endif
 
-    return font_name
-
+    return 0
 endfunction
 " }}}
 
 " {{{
-function! s:UpdateFontCacheLinux()
+function! s:UpdateLinuxFontCache()
 
     " {{{ command description
     " sudo: ....

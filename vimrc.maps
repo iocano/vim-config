@@ -1,7 +1,9 @@
 let mapleader = ','
 
-map <leader>h :bprevious<cr>|                                   " go to previous buffer
-map <leader>l :bnext<cr>|                                       " go to next buffer
+nnoremap <leader>bp :bprevious<cr>|                                   " go to previous buffer
+nnoremap <leader>bn :bnext<cr>|                                   " go to previous buffer
+nnoremap <leader>tp :tabprevious<cr>|                                   " go to previous buffer
+nnoremap <leader>tn :tabnext<cr>|                                   " go to previous buffer
 
 map <C-J> <C-W>j|                                               " change to bottom window
 map <C-K> <C-W>k|                                               " change to top window

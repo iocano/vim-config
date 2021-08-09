@@ -1,40 +1,81 @@
+" \z(\)         : Mark sub-expression as external (can be accessed from another pattern match, only usable syntax region start pattern)
+"                 Access subexpresion with \z1, \z2, ..., \z9
+" \%(\)         : Like \(\) but no counting it as subexpresion (faster)
+" \ze           : Match any position and set the end of the match there, the previous char is the last char of the whole match
+"                 In end\ze\(if\|for\) match 'end' in 'endif' and 'endfor'
+" \s            : Match <space> and <tab>
+" *             : Match 0 or more the preceding atom, a*: match "", "a", "aa", "aaa", etc.
+" \n            : Match an end of line
+" \@!           : Match if the preceding atom does not match at the current position
+" .             : Match any single character, but not an end of line
+" \z1, ..., \z9 : Matches the same string that was matched by the corresponding sub-expression in a previous start pattern match.
+" {-}           : Matches 0 or more of the preceding atom, as few as possible
 
-" The default Vim syntax file has limited 'fold' definitions, so define more.
+" syntax region : Defines one region, e.g. syn region region_name
+" start         : The search pattern that defines the start of the region
+" end           : The search pattern that defines the end of the region
+" fold          : This argument makes the fold level increase by one for this item
+" skip          : The search pattern that defines text inside the region where not to look for the end
+" transparent   : This item will not be highlighted itself, but will take the highlighting of the item it is contained in.
+" keepend       : Makes vimCommand always end at the end of the line, when "keepend" is not used, a match with an end pattern is retried
+" extend    	: Override a "keepend" for an item this region is contained in
 
-" define groups that cannot contain the start of a fold
+" a
+" b
+" c
+
+" syn cluster vimNoFold contains=vimComment,vimLineComment,vimCommentString,vimString,vimSynKeyRegion,vimSynRegPat,vimPatRegion,vimMapLhs,vimOperParen,@EmbeddedScript
 syn cluster vimNoFold contains=vimComment,vimLineComment,vimCommentString,vimString,vimSynKeyRegion,vimSynRegPat,vimPatRegion,vimMapLhs,vimOperParen,@EmbeddedScript
 syn cluster vimEmbeddedScript contains=vimMzSchemeRegion,vimTclRegion,vimPythonRegion,vimRubyRegion,vimPerlRegion
 
-" \ end="\r^syn region\|^$"
-" end=#^\s*\($\|[^/\t ]\)#he=s-1
-            " \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
-            " \ containedin=ALLBUT,@vimNoFold
-            " \ keepend extend
-            " \ end=#^\s*\(0\|\)#
+function! Set(name)
+    " dummy value
+    " for this variable
 
-syn region vimSynRegion
-            \ start="\<syn\%[ntax] region\>"
-            \ end=#^\(\\\)\@<!syn#
+    let x = 5
+    if x == 5
+        if x == 5
+            echom 5
+        endif
+    endif
+
+endfunction
+
+" \ start="\z(\s*\"\)"
+" \ end="\(\z1\)\@!"
+
+syn region vimFoldComment
+            \ start="^\z(\s*\"\)"
+            \ end="\(\z1\)\@!"
             \ transparent fold
-            \ keepend extend
+            \ contains=ALLBUT,@vimNoFold
+
+
+
+" syn region vimFoldSyntax
+"             \ start="^\z(\s*\)\%(syn\)\>"
+"             \ end="\ze\%(\s*\n\)\+\%(\z1\s\)\@!."
+"             \ transparent fold
+"             \ keepend extend
+"             \ containedin=ALLBUT,@vimNoFold
+"             \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
+
 syn region vimFoldWhile
             \ start="\<wh\%[ile]\>" end="\<endw\%[hile]\>"
             \ transparent fold keepend extend
             \ containedin=ALLBUT,@vimNoFold
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
-" fold for loops
 syn region vimFoldFor
             \ start="\v<for>%(\s*\n\s*\\)?\s*.+%(\s*\n\s*\\\s*)?\s*<in>" end="\<endfo\%[r]\>"
             \ transparent fold
             \ keepend extend
             \ containedin=ALLBUT,@vimNoFold
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
 " fold if...else...endif constructs
 "
-" note that 'endif' has a shorthand which can also match many other end patterns
-" if we did not include the word boundary \> pattern, and also it may match
+" note that 'endif' has a shorthand which can also match many other end patterns if we did not include the word boundary \> pattern, and also it may match
 " syntax end=/pattern/ elements, so we must explicitly exclude these
 syn region vimFoldIfContainer
             \ start="\<if\>"
@@ -43,7 +84,7 @@ syn region vimFoldIfContainer
             \ keepend extend
             \ containedin=ALLBUT,@vimNoFold
             \ contains=NONE
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
 syn region vimFoldIf
             \ start="\<if\>"
@@ -53,7 +94,7 @@ syn region vimFoldIf
             \ contained containedin=vimFoldIfContainer
             \ nextgroup=vimFoldElseIf,vimFoldElse
             \ contains=TOP
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
 syn region vimFoldElseIf
             \ start="\<else\%[if]\>"
@@ -63,7 +104,8 @@ syn region vimFoldElseIf
             \ contained containedin=vimFoldIfContainer
             \ nextgroup=vimFoldElseIf,vimFoldElse
             \ contains=TOP
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
+
 syn region vimFoldElse
             \ start="\<el\%[se]\>"
             \ end="\<en\%[dif]\>=\@!"
@@ -71,9 +113,8 @@ syn region vimFoldElse
             \ keepend
             \ contained containedin=vimFoldIfContainer
             \ contains=TOP
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
-" fold try...catch...finally...endtry constructs
 syn region vimFoldTryContainer
             \ start="\<try\>"
             \ end="\<endt\%[ry]\>"
@@ -81,7 +122,8 @@ syn region vimFoldTryContainer
             \ keepend extend
             \ containedin=ALLBUT,@vimNoFold
             \ contains=NONE
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
+
 syn region vimFoldTry
             \ start="\<try\>"
             \ end="^\s*\\\?\s*\(fina\%[lly]\|cat\%[ch]\)\>"ms=s-1,me=s-1
@@ -90,7 +132,8 @@ syn region vimFoldTry
                 \ contained containedin=vimFoldTryContainer
                 \ nextgroup=vimFoldCatch,vimFoldFinally
                 \ contains=TOP
-                \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+                \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
+
 syn region vimFoldCatch
             \ start="\<cat\%[ch]\>"
             \ end="^\s*\\\?\s*\(cat\%[ch]\|fina\%[lly]\)\>"ms=s-1,me=s-1
@@ -99,7 +142,8 @@ syn region vimFoldCatch
                 \ contained containedin=vimFoldTryContainer
                 \ nextgroup=vimFoldCatch,vimFoldFinally
                 \ contains=TOP
-                \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+                \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
+
 syn region vimFoldFinally
             \ start="\<fina\%[lly]\>"
             \ end="\<endt\%[ry]\>"
@@ -107,50 +151,21 @@ syn region vimFoldFinally
             \ keepend
             \ contained containedin=vimFoldTryContainer
             \ contains=TOP
-            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
-" Folding of functions and augroups is built-in since VIM 7.2 (it was introduced
-" with vim.vim version 7.1-76) if g:vimsyn_folding contains 'a' and 'f', so set
-" this variable if you want it. (Also in older VIM versions.)
-if v:version <= 701 && exists('g:vimsyn_folding')
-    " Starting with VIM 7.2, this is built-in. Retrofit for older versions unless
-    " VIM 7.1 already has it patched in.
-    let s:vimsyn_folding = g:vimsyn_folding
-    if v:version == 701
-        " Special check for VIM 7.1: Since we cannot check for that particular
-        " version of the runtime file, check one of the associated group names
-        " itself for the 'fold' keyword.
-        redir => s:synoutput
-        silent! syn list vimFuncBody
-        redir END
-        if s:synoutput =~ 'fold'
-            " No need to retrofit, this vim.vim version already supports folding.
-            let s:vimsyn_folding = ''
-        endif
-        unlet s:synoutput
-    endif
+syn region vimFoldFunction
+            \ start="\<fu\%[nction]!\=\s\+\%(<[sS][iI][dD]>\|[sSgGbBwWtTlL]:\)\?\%(\i\|[#.]\|{.\{-1,}}\)*\ze\s*("
+            \ end="\<endfu\%[nction]\>"
+            \ transparent
+            \ keepend extend
+            \ containedin=ALLBUT,@vimNoFold
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
-    if s:vimsyn_folding =~# 'f'
-        " fold functions
-        syn region vimFoldFunction
-                    \ start="\<fu\%[nction]!\=\s\+\%(<[sS][iI][dD]>\|[sSgGbBwWtTlL]:\)\?\%(\i\|[#.]\|{.\{-1,}}\)*\ze\s*("
-                        \ end="\<endfu\%[nction]\>"
-                        \ transparent fold
-                        \ keepend extend
-                        \ containedin=ALLBUT,@vimNoFold
-                        \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
-    endif
-
-    " fold augroups
-    if s:vimsyn_folding =~# 'a'
-        syn region vimFoldAugroup
-                    \ start="\<aug\%[roup]\ze\s\+\(END\>\)\@!"
-                    \ end="\<aug\%[roup]\s\+END\>"
-                    \ transparent fold
-                    \ keepend extend
-                    \ containedin=ALLBUT,@vimNoFold
-                    \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+ "comment to fix highlight on wiki'
-    endif
-    unlet s:vimsyn_folding
-endif
+syn region vimFoldAugroup
+            \ start="\<aug\%[roup]\ze\s\+\(END\>\)\@!"
+            \ end="\<aug\%[roup]\s\+END\>"
+            \ transparent fold
+            \ keepend extend
+            \ containedin=ALLBUT,@vimNoFold
+            \ skip=+"\%(\\"\|[^"]\)\{-}\%("\|$\)\|'[^']\{-}'+
 
