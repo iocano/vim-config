@@ -1,26 +1,18 @@
-
 let mapleader = ','
 
-" {{{
 if utils#PlugLoaded('vim-easy-align')
     xmap ga <Plug>(EasyAlign)|                                                                                  " Start interactive EasyAlign in visual mode (e.g. vipga)
     nmap ga <Plug>(EasyAlign)|                                                                                  " Start interactive EasyAlign for a motion/text object (e.g. gaip)
 endif
-" }}}
 
-" {{{
 if utils#PlugLoaded('fzf')
     nnoremap <leader>ff :Files<CR>
 endif
-" }}}
 
-" {{{
 if utils#PlugLoaded('nerdtree')
     map <leader>n :NERDTreeToggle<Enter>
 endif
-" }}}
 
-" {{{
 if g:utils#PlugLoaded('coc.nvim')
     "IF (pop menu is visible) <ctrl-n> ELSE IF (is autocompletable word) show pop menu again ELSE <tab>
     inoremap <silent><expr> <TAB> pumvisible() ? "\<C-n>" : g:IsAutocompletable() ? coc#refresh() : "\<TAB>"|   " Use tab for trigger completion with characters ahead
@@ -56,5 +48,3 @@ if g:utils#PlugLoaded('coc.nvim')
     nnoremap <silent> <space>k  :<C-u>CocPrev<CR>|                                                              " Do default action for previous item.
     nnoremap <silent> <space>p  :<C-u>CocListResume<CR>|                                                        " Resume latest coc list
 endif
-" }}}
-

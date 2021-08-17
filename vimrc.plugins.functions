@@ -1,5 +1,4 @@
-
-" {{{ check if previous cursor position is a word (\w)
+" check if previous cursor position is a word (\w)
 function! g:IsAutocompletable() abort
     let col = col('.')
     let line = getline('.')
@@ -7,9 +6,8 @@ function! g:IsAutocompletable() abort
 
     return prev_char =~ '\w'
 endfunction
-" }}}
 
-" {{{ show documentation for the word under cursor
+" show documentation for the word under cursor
 function! g:Show_documentation()
     " check if current file type is vim or help
     if (index(['vim','help'], &filetype) >= 0)
@@ -20,5 +18,3 @@ function! g:Show_documentation()
         call CocAction('doHover')
     endif
 endfunction
-" }}}
-

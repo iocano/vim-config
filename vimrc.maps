@@ -30,8 +30,6 @@ nnoremap <leader>p :call utils#PathPrintf("%s/%s", g:vim_dir, "viminfo")<CR>
 
 "Ctrl-^                                                         " soft capslock
 
-" {{{
 augroup vim_filetype_maps
     autocmd FileType vim nnoremap <F2> :call CreateFolds()<CR>
 augroup END
-" }}}

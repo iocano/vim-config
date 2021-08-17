@@ -4,8 +4,7 @@ endif
 
 let g:loaded_utils = 1
 
-" {{{ Restart vim
-" }}}
+" Restart vim on linux
 function utils#RestartVimLinux()
     " command to get vim plus arguments (e.g. vim -O file1 file2 ...)
     let get_vim_args_cmd = printf("ps -o command= -p %s", getpid())
@@ -26,20 +25,18 @@ function utils#RestartVimLinux()
     :qall!
 endfunction
 
-" {{{
+" Check if is linux OS
 function utils#IsLinux()
     " cygwin and mac also return true to has('unix')
     return has('unix') && !has('win32unix') && !has('macunix')
 endfunction
-" }}}
 
-" {{{
+" Check if is Windows on 32 or 64 bits
 function utils#IsWindows()
     return has('win32') || has('win64')
 endfunction
-" }}}
 
-" {{{
+" Return full path of viminfo file, create the file if not exists
 function utils#GetVimInfoFile()
     " check if neovim or vim
     let file_name = has('nvim') ? 'nviminfo' : 'viminfo'
@@ -57,9 +54,8 @@ function utils#GetVimInfoFile()
     " Return escaped string to use with viminfo option
     return substitute(full_path, '\', '/', "g")
 endfunction
-" }}}
 
-" {{{
+" Get directory for backup, undodir,swap and view, create directory if not exists
 function utils#GetDirectoryFor(option)
 
     let directories = {'backupdir' : 'backup', 'undodir' : 'undo', 'directory' : 'swap', 'viewdir' : 'view'}
@@ -78,17 +74,15 @@ function utils#GetDirectoryFor(option)
 
     return directory_path
 endfunction
-" }}}
 
-" {{{ Load list of files
+" Load(source) list of files
 function utils#SourceFileList(file_list)
     for file in a:file_list
         execute printf('source %s/%s', g:vim_dir, file)
     endfor
 endfunction
-" }}}
 
-" {{{ Return git tree root if exists, otherwise return empty string
+" Return git tree root if exists, otherwise return empty string
 function utils#GetGitRoot()
     " {{{ command description
     "   git :               Git command
@@ -104,9 +98,8 @@ function utils#GetGitRoot()
     " return command output
     return cmd_output[:-2] "[:-2] : Remove last byte from the string (^@)
 endfunction
-" }}}
 
-" {{{ Return custom fold text (set with 'foldtext' option)
+" Return custom fold text (set with 'foldtext' option)
 function utils#MyFoldText()
     " number of lines of current fold
     let line_count = v:foldend - v:foldstart + 1
@@ -138,22 +131,18 @@ function utils#MyFoldText()
     " if not a function return first no empty line
     return printf('+ %s -> %s %s', clean_line, line_count, singular_plural)
 endfunction
-" }}}
 
-" {{{ Return 1 if plugin is loaded, otherwise return 0
+" Return 1 if plugin is loaded, otherwise return 0
 function utils#PlugLoaded(name)
-    " plugins manually installed
-    let unplugged_dir = printf('%s/unplugged/%s', expand('~/.vim'), a:name)
 
     " plugin manager default dir
     let plugged_dir = printf('%s/plugged/%s', expand('~/.vim'), a:name)
 
     " name is dir/plugin name and exists on runtimepath
-    return (isdirectory(unplugged_dir) || isdirectory(plugged_dir)) && match(&runtimepath, a:name) != -1
+    return isdirectory(plugged_dir) && match(&runtimepath, a:name) != -1
 endfunction
-"}}}
 
-" {{{ return path with backslashes on windows and slashes with unix-like OS's
+" Return path with backslashes on windows and slashes with unix-like OS's
 function! utils#PathPrintf(format, ...)
     let function_name = "utils#PrintPath()"
     let text = a:format
@@ -177,5 +166,3 @@ function! utils#PathPrintf(format, ...)
 
     return utils#IsWindows() ? substitute(text, '/', '\', "g") : text
 endfunction
-" }}}
-

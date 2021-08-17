@@ -1,11 +1,10 @@
-
 " prepare plugins to load
 call plug#begin(expand("~/.vim/plugged"))
 
-" completion
+" COMPLETION
 " Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
-" eye candy
+" EYE CANDY
 " Plug 'vim-airline/vim-airline'
 " Plug 'vim-airline/vim-airline-themes'
 " Plug 'ryanoasis/vim-devicons'
@@ -13,23 +12,23 @@ call plug#begin(expand("~/.vim/plugged"))
 " Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
 
-" general
+" GENERAL
 " Plug 'preservim/nerdtree'
 " Plug 'preservim/nerdcommenter'
 " Plug 'junegunn/vim-easy-align'
 " Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 " Plug 'junegunn/fzf.vim'
 " Plug 'iocano/vim-capslock'
-" Plug 'guns/xterm-color-table.vim'
+Plug 'guns/xterm-color-table.vim'
 
-" database
+" VIMSCRIPT
+Plug 'iocano/vim-vimscript-fold'
+
+" DATABASE
 " Plug 'vim-scripts/dbext.vim'
 
-" php
+" PHP
 " Plug 'spf13/PIV'
-
-"Python
-" Plug 'mdda/vim-plugin-python'
 
 " Initialize plugin system
 call plug#end()

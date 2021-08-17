@@ -4,7 +4,7 @@ endif
 
 let g:loaded_install = 1
 
-" {{{
+" Install vim-plug
 function install#PluginManager()
 
     let s:plug_destination = printf('%s/autoload/plug.vim', expand('~/.vim'))
@@ -15,9 +15,8 @@ function install#PluginManager()
 
     call system(s:curl_command)
 endfunction
-" }}}
 
-" {{{
+" Install plugins
 function install#Plugins()
 
     " clean terminal
@@ -29,17 +28,15 @@ function install#Plugins()
     " close installation buffer
     bd
 endfunction
-" }}}
 
-" {{{
+" Install coc-extensions by list of extensions name
 function! install#CocExtensions(extension_list)
     for extension in a:extension_list
         execute printf('CocInstall %s', extension)
     endfor
 endfunction
-" }}}
 
-" {{{ Grab a font by url using curl and install
+" Grab a font by url using curl and install
 function! install#LinuxFonts(font_url_list)
 
     let font_destination = expand('~/.local/share/fonts')
@@ -58,11 +55,10 @@ function! install#LinuxFonts(font_url_list)
     endif
 
 endfunction
-" }}}
 
 " ------------------------------------ Script scope functions --------------------------------------
 
-" {{{ Install a font by url, return 1 if installation was needed, otherwise return 0 (font already exists)
+" Install a font by url, return 1 if installation was needed, otherwise return 0 (font already exists)
 function! s:InstallLinuxFont(font_url, font_destination)
 
     " get font name from url
@@ -79,9 +75,8 @@ function! s:InstallLinuxFont(font_url, font_destination)
 
     return 0
 endfunction
-" }}}
 
-" {{{
+" Update font cache on Linux OS (request password)
 function! s:UpdateLinuxFontCache()
 
     " {{{ command description
@@ -100,4 +95,3 @@ function! s:UpdateLinuxFontCache()
     call system(update_font_cache_cmd)
 
 endfunction
-" }}}
