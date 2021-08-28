@@ -2,33 +2,33 @@
 call plug#begin(expand("~/.vim/plugged"))
 
 " COMPLETION
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " EYE CANDY
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
-" Plug 'ryanoasis/vim-devicons'
-" Plug 'vim-scripts/Rainbow-Parenthesis'
-" Plug 'Yggdroot/indentLine'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+Plug 'vim-scripts/Rainbow-Parenthesis'
+Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
 
 " GENERAL
-" Plug 'preservim/nerdtree'
-" Plug 'preservim/nerdcommenter'
-" Plug 'junegunn/vim-easy-align'
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
-" Plug 'iocano/vim-capslock'
+Plug 'preservim/nerdtree'
+Plug 'preservim/nerdcommenter'
+Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+Plug 'iocano/vim-capslock'
 Plug 'guns/xterm-color-table.vim'
 
 " VIMSCRIPT
 Plug 'iocano/vim-vimscript-fold'
 
 " DATABASE
-" Plug 'vim-scripts/dbext.vim'
+Plug 'vim-scripts/dbext.vim'
 
 " PHP
-" Plug 'spf13/PIV'
+Plug 'spf13/PIV'
 
 " Initialize plugin system
 call plug#end()
