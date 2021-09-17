@@ -126,7 +126,8 @@ function utils#MyFoldText()
     endfor
 
     " remove fold marks '{', comment mark '"' and white spaces
-    let clean_line = substitute(first_no_empty_line, '\v( *[\{]{3} *)| *" *', '', "g")
+    " let clean_line = substitute(first_no_empty_line, '\v( *[\{]{3} *)| *" *', '', "g")
+    let clean_line = substitute(first_no_empty_line, '\v( *[\{] *)| *" *', '', "g")
 
     " if not a function return first no empty line
     return printf('+ %s -> %s %s', clean_line, line_count, singular_plural)
